@@ -3,29 +3,26 @@ import numpy as np
 
 df=pd.read_excel("data.xlsx")
 
-
-df.info()
-
-print(df["Cost"].unique())
-
+print('Le dataframe a la tête suivante :',df.head(5))
 
 df['Cost'] = df['Cost'].apply(lambda x: float(x.replace(',', '.')))
-print(df["Cost"].sum())
+print("la somme totale dépensée par Simplon Co pour les service Cloud Azure est de :", df["Cost"].sum().round(2))
 
 
 
-SubName=df.groupby(['SubscriptionName']).sum().reset_index()
+SubName=df.groupby(['SubscriptionName']).sum().round(2).reset_index()
 
-print(SubName)
+print ("Le cout par entité Simplon: \n", SubName)
 
 
 #cost by ServiceName
 ServiceName=df.loc[:, ["ServiceName","Cost"]].groupby(by=df.ServiceName).agg(sum).reset_index()
-print(ServiceName)
 
-ServiceName2=df.groupby(['ServiceName']).sum().reset_index()
-print(ServiceName2)
 
+ServiceName2=df.groupby(['ServiceName']).sum().round(2).reset_index()
+
+
+print ("Le cout par entité Service Cloud Azure: \n", ServiceName2)
 
 #concat
 

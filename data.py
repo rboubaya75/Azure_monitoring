@@ -23,10 +23,10 @@ def run_sample():
     try:
         # Create the BlockBlobService that is used to call the Blob service for the storage account
         blob_service_client = BlockBlobService(
-            account_name='rachid2', account_key='Sq25Lq6lGlJNTNfpj+j5rBPTSgotvDVS7HmjIF72jYcTzsqVfxXU8k9W237ruMAW4ENmnbjxPBrKxRcU4iU3UA==')
+            account_name='', account_key='')
 
         # Create a container called 'quickstartblobs'.
-        container_name = 'rachid'
+        container_name = ''
         blob_service_client.create_container(container_name)
 
         # Set the permission so the blobs are public.

@@ -44,6 +44,11 @@ function getServicesCostBySub(req, res) {
     })
 }
 
+app.use((req, res, next) => {
+    res.set("Access-Control-Allow-Origin", "*");
+    next();
+})
+
 app.get("/api/cost/general/subscriptions", getGeneralCostBySubs)
 app.get("/api/cost/general/services", getGeneralCostByServices)
 app.get("/api/cost/services/:service", getServicesCostBySub)

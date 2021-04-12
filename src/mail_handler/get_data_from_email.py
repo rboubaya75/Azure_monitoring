@@ -5,21 +5,22 @@ import datetime
 from dotenv import load_dotenv 
 load_dotenv()
 
-email_user = os.environ["EMAIL"]
-email_password = os.environ["MOTDEPASSE"]
-imap_url = "imap.gmail.com"
-attachment_folder = os.environ["FOLDER"]   
-Current_Date = datetime.datetime.today().strftime ('%d-%b-%Y')
+def connection_to_inbox(imap_url):
+    email_user = os.environ["EMAIL"]
+    email_password = os.environ["MOTDEPASSE"]
 
-connection = imaplib.IMAP4_SSL(imap_url)
-connection.login(email_user, email_password)
+    connection = imaplib.IMAP4_SSL(imap_url)
+    connection.login(email_user, email_password)
 
-connection.select("inbox") 
-result, data = connection.fetch(b'12', '(RFC822)') 
+    connection.select("inbox") 
+    _ , data = connection.fetch(b'12', '(RFC822)') 
 
-raw = email.message_from_bytes(data[0][1])
+    raw = email.message_from_bytes(data[0][1])
+    return raw
 
-def get_attachement(msg): 
+def get_attachement(msg, current_date): 
+    attachment_folder = os.environ["FOLDER"]   
+
     for part in msg.walk(): 
         if part.get_content_maintype == 'multipart': 
             continue
@@ -33,7 +34,5 @@ def get_attachement(msg):
                 f.write(part.get_payload(decode= True))
 
         old_file = os.path.join(attachment_folder, filename)
-        new_file = os.path.join(attachment_folder, f"MainFile-{Current_Date}.xls")
+        new_file = os.path.join(attachment_folder, f"AZ_Cost_Report_{current_date}.xls")
         os.rename(old_file, new_file)
-
-get_attachement(raw)

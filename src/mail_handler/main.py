@@ -1,8 +1,12 @@
+import datetime
+import os
+
+from dotenv import load_dotenv 
+
+from data_processing import DB, process_raw_data
 from get_data_from_email import connection_to_inbox, get_attachement
 from upload import upload_file
-from dotenv import load_dotenv 
-import datetime
-import os 
+
 load_dotenv()
 
 def main(): 
@@ -13,6 +17,11 @@ def main():
     raw = connection_to_inbox(imap_url)
     get_attachement(raw, current_date)
     upload_file(new_file)
+    services, subs, cost = process_raw_data(new_file)
+    with DB() as db:
+            db.insert_subscriptions(subs)
+            db.insert_services(services)
+            db.insert_cost(cost)
 
 if __name__ == "__main__": 
     main()

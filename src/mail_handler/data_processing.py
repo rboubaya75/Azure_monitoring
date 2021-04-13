@@ -26,7 +26,7 @@ class DB:
         self._dbcon.close()
 
     def insert_subscriptions(self, subscriptions):
-        subs = tuple(subscriptions['SubscriptionName'].values.tolist())
+        subs = subscriptions['SubscriptionName'].values.tolist()
         try:
             for sub in subs:
                 self._cursor.execute("INSERT INTO Subscriptions (Name) VALUES (%s)", [sub])
@@ -35,7 +35,7 @@ class DB:
             self._dbcon.rollback()
 
     def insert_services(self, services):
-        ser = tuple(services['ServiceName'].values.tolist())
+        ser = services['ServiceName'].values.tolist()
         try:
             for s in ser:
                 self._cursor.execute("INSERT INTO Services (Name) VALUES (%s)", [s])
@@ -44,10 +44,12 @@ class DB:
             self._dbcon.rollback()
 
     def insert_cost(self, cost):
-        cst = tuple(cost.values.tolist())
+        cst = cost.values.tolist()
+        date = datetime.datetime.today().strftime ('%m-%d-%Y')
+        cst = [[*x, date] for x in cst]
         try:
             for c in cst:
-                self._cursor.execute("INSERT INTO Cost (Subid, Serviceid, Cost) VALUES (%s, %s, %s)", c)
+                self._cursor.execute("INSERT INTO Cost (Subid, Serviceid, Cost, Recorddate) VALUES (%s, %s, %s, %s)", c)
             self._dbcon.commit()
         except psycopg2.errors.UniqueViolation:
             self._dbcon.rollback()
@@ -68,5 +70,4 @@ def process_raw_data(filename):
     cost = df.groupby(['SubscriptionName', 'ServiceName']).sum().round(5).reset_index()
     cost = cost.replace(services.set_index('ServiceName')['id'])
     cost = cost.replace(subscriptions.set_index('SubscriptionName')['id'])
-    date = datetime.datetime.today().strftime ('%d-%m-%Y')
     return services, subscriptions, cost

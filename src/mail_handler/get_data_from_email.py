@@ -1,8 +1,11 @@
+import datetime 
+import email 
 import imaplib 
 import os
-import email 
-import datetime 
-from dotenv import load_dotenv 
+
+from contextlib import suppress
+from dotenv import load_dotenv
+
 load_dotenv()
 
 def connection_to_inbox(imap_url):
@@ -27,7 +30,8 @@ def get_attachement(msg, current_date):
         if part.get('Content-Disposition') is None: 
             continue 
         filename = part.get_filename()
-
+        with suppress(FileExistsError):
+            os.mkdir(attachment_folder)
         if bool(filename): 
             filePath = os.path.join(attachment_folder, filename)
             with open(filePath, 'wb') as f: 

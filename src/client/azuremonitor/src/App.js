@@ -1,20 +1,36 @@
-import logo from './logo.svg';
+import React from 'react';
+import Navbar from './Components/navbar/navbar';
 import './App.css';
+import Home from './Components/pages/home';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Services from './Components/pages/services';
+import Subscriptions from './Components/pages/subscriptions';
+//import thumb from "./azure.png";
+
 
 function App() {
   return (
-    <div className="App">
-    {/* <Chart
-      chartType="PieChart"
-      data={[["Age", "Weight"], ["a", 12], ["b", 5.5]]}
-      options={pieOptions}
-      graph_id="PieChart"
-      width={"100%"}
-      height={"400px"}
-      legend_toggle
-    />*/}
-  </div>
+    <>
+
+      <Router>
+      <div className="App">
+      <Navbar />  </div>
+         
+        <Switch>
+          <Route path='/' exact component={Home} />
+          <Route path='/subscriptions' component={Subscriptions} />
+          <Route path='/services' component={Services} />
+          
+        </Switch>
+        
+      </Router>
+       
+    </>
   );
 }
 
 export default App;
+
+
+
+

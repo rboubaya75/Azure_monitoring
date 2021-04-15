@@ -38,31 +38,30 @@ const pieOptions = {
     fontName: "Roboto"
 };
   
-function Charts() {
-    const [costs, setCosts] = useState([]);
+function Charts(props) {
+  const [costs, setCosts] = useState([]);
 
-    useEffect(async () => {
-        const f = async() => {
-            const res = await axios("https://brtazuremonitor.azurewebsites.net/api/cost/general/services")
-            const tmp = [...res.data].map(e => [e.name, parseInt(e.total)])
-            tmp.splice(0, 0, ['Name', 'Total'])
-            setCosts(tmp);
-        };
-        f()
-      }, []);
-    return (
-        <div className="App">
-            <Chart
-            chartType="PieChart"
-            data={costs}
-            options={pieOptions}
-            graph_id="PieChart"
-            width={"100%"}
-            height={"400px"}
-            legend_toggle
-            />
-        </div>
-      );
+  useEffect(async () => {
+    const f = async() => {
+          const res = await axios(`https://brtazuremonitor.azurewebsites.net/api/cost/general/${props.page}/${props.name}`)
+          const tmp = res.data.map(e => [e.name, parseInt(e.total)])
+          setCosts([['Name', 'Total'], ...tmp]);
+    };
+    f()
+  }, []);
+  return (
+    <div className="charts">
+      <Chart
+        chartType="PieChart"
+        data={costs}
+        options={pieOptions}
+        graph_id="PieChart"
+        width={"100%"}
+        height={"400px"}
+        legend_toggle
+      />
+    </div>
+  );
 }
 
 export default Charts;

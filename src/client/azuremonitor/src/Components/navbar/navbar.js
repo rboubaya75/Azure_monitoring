@@ -36,7 +36,6 @@ function Navbar() {
                 Home
               </Link>
             </li>
-
             <li className='nav-item'>
               <Link
                 to='/subscriptions'
@@ -46,8 +45,6 @@ function Navbar() {
                 Subscriptions
               </Link>
             </li>
-
-
             <li className='nav-item'>
               <Link
                 to='/services'
@@ -57,10 +54,7 @@ function Navbar() {
                 Services
               </Link>
             </li>
-            
-
           </ul>
-    
         </div>
       </nav>
     </>

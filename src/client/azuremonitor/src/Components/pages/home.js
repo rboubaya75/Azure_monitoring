@@ -11,9 +11,10 @@ export default function Home() {
     const [click, setClick] = useState(true)
     
     return (
-        <div className="Container">
-            <p className="title"> Welcome to the monitoring App</p>
-            
-        </div>
+        <>
+            <div className="Container">
+                <p className="title"> Welcome to the monitoring App</p>
+            </div>
+        </>
     )
 }

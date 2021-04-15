@@ -14,18 +14,19 @@ import {
 
 //import sidebar css from react-pro-sidebar module and our custom css 
 import "react-pro-sidebar/dist/css/styles.css";
+
+
 import "./Sidebar.css";
 
 const Sidebar= (props) => {
-  
-  //create initial menuCollapse state using useState hook
-  const [menuCollapse, setMenuCollapse] = useState(false)
 
   const [items, setItems] = useState([])
+  const [name, setName] = useState('Storage')
 
   useEffect(async() => {
     const getItems = async() => {
-      const res = await axios(`https://brtazuremonitor.azurewebsites.net/api/${props.page}`)
+      const res = await axios(`https://brtazuremonitor.azurewebsites.net/api/${props.page}`) 
+
       setItems(res.data.map(e => e.name));
     }
     getItems()
@@ -33,13 +34,12 @@ const Sidebar= (props) => {
   return (
     <>
       <div id="header">
-          {/* collapsed props to change menu size using menucollapse state */}
-        <ProSidebar collapsed={menuCollapse}>
+        <ProSidebar >
           <SidebarHeader>
           </SidebarHeader>
           <SidebarContent>
             <Menu iconShape="square">
-              {items.map(item => <MenuItem key={item}>{item}</MenuItem>)}
+              {items.map(item => <MenuItem key={item} onClick={props.updateName}>{item} </MenuItem>)}
             </Menu>
           </SidebarContent>
           <SidebarFooter>

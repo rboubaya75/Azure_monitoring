@@ -3,7 +3,6 @@ import '../../App.css';
 import Sidebar from '../Sidebar/Sidebar';
 import Charts from '../../Charts'
 
-
 export default function Subscriptions() {
   const [name, setName] = useState('')
 

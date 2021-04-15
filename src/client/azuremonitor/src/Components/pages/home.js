@@ -1,19 +1,14 @@
 import React from 'react';
 import '../../App.css';
-import {useState} from 'react';
-import Charts from '../../Charts';
-
-
-
+import Charts from '../../Charts'
+import './home.css'
 
 
 export default function Home() {
-    const [click, setClick] = useState(true)
-    
     return (
         <>
             <div className="Container">
-                <p className="title"> Welcome to the monitoring App</p>
+                <h1 className="title"> Welcome to Azure Monitoring App</h1>
             </div>
         </>
     )

@@ -7,6 +7,7 @@ function Charts(props) {
   
   const pieOptions = {
       title: props.name,
+      sliceVisibilityThreshold: 0,
       pieHole: 0,
       slices: [
         {

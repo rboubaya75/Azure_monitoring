@@ -2,8 +2,6 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
-import NavBar from './NavBar';
-import Charts from './Charts';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(

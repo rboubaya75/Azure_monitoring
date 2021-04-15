@@ -21,13 +21,12 @@ import "./Sidebar.css";
 const Sidebar= (props) => {
 
   const [items, setItems] = useState([])
-  const [name, setName] = useState('Storage')
 
   useEffect(async() => {
     const getItems = async() => {
       const res = await axios(`https://brtazuremonitor.azurewebsites.net/api/${props.page}`) 
 
-      setItems(res.data.map(e => e.name));
+      setItems(res.data.map(e => e.name).sort());
     }
     getItems()
   }, [])

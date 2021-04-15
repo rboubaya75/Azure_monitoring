@@ -27,32 +27,23 @@ class DB:
 
     def insert_subscriptions(self, subscriptions):
         subs = subscriptions['SubscriptionName'].values.tolist()
-        try:
-            for sub in subs:
-                self._cursor.execute("INSERT INTO Subscriptions (Name) VALUES (%s)", [sub])
-            self._dbcon.commit()
-        except psycopg2.errors.UniqueViolation:
-            self._dbcon.rollback()
+        for sub in subs:
+            self._cursor.execute("INSERT INTO Subscriptions (Name) VALUES (%s) ON CONFLICT (Name) DO NOTHING", [sub])
+        self._dbcon.commit()
 
     def insert_services(self, services):
         ser = services['ServiceName'].values.tolist()
-        try:
-            for s in ser:
-                self._cursor.execute("INSERT INTO Services (Name) VALUES (%s)", [s])
-            self._dbcon.commit()
-        except psycopg2.errors.UniqueViolation:
-            self._dbcon.rollback()
+        for s in ser:
+            self._cursor.execute("INSERT INTO Services (Name) VALUES (%s) ON CONFLICT (Name) DO NOTHING", [s])
+        self._dbcon.commit()
 
     def insert_cost(self, cost):
         cst = cost.values.tolist()
         date = datetime.datetime.today().strftime ('%m-%d-%Y')
         cst = [[*x, date] for x in cst]
-        try:
-            for c in cst:
-                self._cursor.execute("INSERT INTO Cost (Subid, Serviceid, Cost, Recorddate) VALUES (%s, %s, %s, %s)", c)
-            self._dbcon.commit()
-        except psycopg2.errors.UniqueViolation:
-            self._dbcon.rollback()
+        for c in cst:
+            self._cursor.execute("INSERT INTO Cost (Subid, Serviceid, Cost, Recorddate) VALUES (%s, %s, %s, %s)", c)
+        self._dbcon.commit()
 
 def process_raw_data(filename):
     df = pd.read_excel(filename)

@@ -7,6 +7,7 @@ function Charts(props) {
   
   const pieOptions = {
       title: props.name,
+      sliceVisibilityThreshold: 0,
       pieHole: 0,
       slices: [
         {
@@ -42,14 +43,14 @@ function Charts(props) {
       fontSize: 20
   };
 
-  useEffect(async () => {
+  useEffect(() => {
     const f = async() => {
           const res = await axios(`https://brtazuremonitor.azurewebsites.net/api/cost/${props.page}/${props.name}`)
           let tmp;
-          if (props.page == 'subscriptions') {
+          if (props.page === 'subscriptions') {
             tmp = res.data.map(e => [e.service, e.cost])
           }
-          else if (props.page == 'services') {
+          else if (props.page === 'services') {
             tmp = res.data.map(e => [e.subscription, e.cost])
           }
           setCosts([['Name', 'Total'], ...tmp]);
